@@ -22,8 +22,10 @@ class Matrix{
 		Matrix operator-(const Matrix&);
 		Matrix operator*(const Matrix&);
 		Matrix operator*(const double);
-		double operator()(const int, const int);
+		double operator()(const int, const int) const;
+		double& operator()(const int, const int);
 		Matrix identity(int, int);
 		Matrix inverse();
+		std::vector<double>& getMat();
 };
 #endif
