@@ -3,6 +3,13 @@
 #include "../vector3d/vector3d.h"
 #include <vector>
 
+struct InvalidArgument : public std::exception{
+	const char *message;
+	InvalidArgument(char *mes) : message(mes) {}
+	~InvalidArgument() throw() {}
+	const char *what() const throw(){ return message; }
+};
+
 class Matrix{
 	private:
 		int rows;

@@ -5,7 +5,7 @@ OBJECTS = bin/matrix.o bin/matmain.o
 all: matrix
 	
 matrix: $(OBJECTS)
-	$(CC) $(OBJECTS) -o bin/matrix
+	$(CC) $(OBJECTS) -o bin/matrix -lUnitTest++
 	
 bin/matrix.o:
 	$(CC) $(CFLAGS) bin/matrix.o matrix.cpp

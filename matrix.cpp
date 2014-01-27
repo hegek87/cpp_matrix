@@ -3,35 +3,33 @@
 
 
 // creates a row x col zero matrix
-Matrix::Matrix(int row, int col){
-	this->rows = row; this->cols = col;
-	this->mat = std::vector<double>(row * col);
-	//initialize elements to zero
-	for(int i = 0; i < this->rows; ++i){
-		for(int j = 0; j < this->cols; ++j){
-			mat[i*this->cols + j] = 0;
-		}
+Matrix::Matrix(int row, int col) : rows(row), cols(col), mat(row*col, 0){
+	if(row < 0 || col < 0){ 
+		throw InvalidArgument((char *)"Rows and Cols must be > 0\n");
 	}
 }
 
 // creates a row x col matrix with val in each entry
-Matrix::Matrix(int row, int col, double val){
-	this->rows = row; this->cols = col;
-	this->mat = std::vector<double>(row * col);
-	//initialize elements to val
-	for(int i = 0; i < this->rows; ++i){
-		for(int j = 0; j < this->cols; ++j){
-			mat[i*this->cols + j] = val;
-		}
+Matrix::Matrix(int row, int col, double val) : rows(row), cols(col), 
+mat(row*col, val){
+	if(row < 0 || col < 0){
+		throw InvalidArgument((char *)"Rows and Cols must be > 0\n");
 	}
 }
 
-
+// index into the ith row, jth column
 double Matrix::operator()(const int i, const int j) const{
+	if(i > this->rows || i < 0 || j < 0 || j > this->cols){
+		throw InvalidArgument((char *)"Index too large");
+	}
 	return mat[i*this->cols + j];
 }
 
+// index into the ith row, jth column
 double& Matrix::operator()(const int i, const int j){
+	if(i > this->rows || i < 0 || j < 0 || j > this->cols){
+		throw InvalidArgument((char *)"Index too large");
+	}
 	return mat[i*this->cols+j];
 }
 
