@@ -12,7 +12,7 @@ TEST(Init){
 	try{
 		Matrix m(-10,-1);
 		//should not get here
-		CHECK(true);
+		CHECK(false);
 	} catch(InvalidArgument& ia){ CHECK(true); }
 } 
 
@@ -119,6 +119,28 @@ TEST(MatrixAddition){
 		CHECK(false);
 	} catch(InvalidSize is){ CHECK(true); }
 	CHECK(Matrix(4,4,2).equals(m3+m4));
+}
+
+TEST(MatrixSubtraction){
+	Matrix m1(4,4,3), m2(4,4,5), m3(2,9, 109), m4(2,9);
+	CHECK(Matrix(4,4,-2).equals(m1-m2));
+	CHECK(Matrix(2,9,109).equals(m3-m4));
+	try{
+		Matrix t = m1-m3;
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	try{
+		Matrix t = m1-m4;
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	try{
+		Matrix t = m2-m3;
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	try{
+		Matrix t = m2-m4;
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
 }
 
 int main(){

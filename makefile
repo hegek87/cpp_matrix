@@ -2,15 +2,15 @@ CC = g++
 CFLAGS = -c -g -Wall -o
 OBJECTS = bin/matrix.o bin/matmain.o
 
-all: matrix
+all: bin/matrix
 	
-matrix: $(OBJECTS)
+bin/matrix: $(OBJECTS)
 	$(CC) $(OBJECTS) -o bin/matrix -lUnitTest++
 	
-bin/matrix.o:
+bin/matrix.o: matrix.cpp
 	$(CC) $(CFLAGS) bin/matrix.o matrix.cpp
 	
-bin/matmain.o:
+bin/matmain.o: matmain.cpp
 	$(CC) $(CFLAGS) bin/matmain.o matmain.cpp
 	
 clean:

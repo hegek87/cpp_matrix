@@ -60,7 +60,19 @@ Matrix Matrix::operator+(const Matrix& other){
 	return t;
 }
 
+Matrix Matrix::operator-(const Matrix& other){
+	if(this->rows != other.rows || this->cols != other.cols){
+		throw InvalidSize("Matrices are of different size");
+	}
+	Matrix t(this->rows, this->cols);
+	for(int i = 0; i < this->rows; ++i){
+		for(int j = 0; j < this->cols; ++j){
+			t(i,j) = (*this)(i,j)-other(i,j);
+		}
+	}
+	return t;
+}
+
 std::vector<double>& Matrix::getMat(){ return this->mat; }
 
-Matrix::~Matrix(){
-}	
+Matrix::~Matrix(){}	
