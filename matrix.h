@@ -2,12 +2,20 @@
 #define MATRIX_H
 #include "../vector3d/vector3d.h"
 #include <vector>
+#include <string>
 
 struct InvalidArgument : public std::exception{
-	const char *message;
-	InvalidArgument(char *mes) : message(mes) {}
+	std::string message;
+	InvalidArgument(std::string mes) : message(mes) {}
 	~InvalidArgument() throw() {}
-	const char *what() const throw(){ return message; }
+	const char *what() const throw(){ return message.c_str(); }
+};
+
+struct InvalidSize : public std::exception{
+	std::string message;
+	InvalidSize(std::string mes) : message(mes){}
+	~InvalidSize() throw(){}
+	const char *what() const throw(){ return message.c_str(); }
 };
 
 class Matrix{
@@ -34,5 +42,6 @@ class Matrix{
 		Matrix identity(int, int);
 		Matrix inverse();
 		std::vector<double>& getMat();
+		bool equals(const Matrix&);
 };
 #endif

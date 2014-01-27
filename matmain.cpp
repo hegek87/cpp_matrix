@@ -75,6 +75,52 @@ TEST(IndexingOverSize){
 	} catch(InvalidArgument& ia){ CHECK(true); }
 }
 
+// 6
+TEST(SetIndex){
+	Matrix m(5,5);
+	m(3,3) = 10000;
+	CHECK_CLOSE(10000, m.getMat()[18], 0.01);
+}
+
+// 7
+TEST(MatrixEquality){
+	Matrix m1(5,5), m2(4,4), m3(5,4), m4(5,5);
+	CHECK(m1.equals(m4));
+	CHECK(!m1.equals(m2));
+	CHECK(!m1.equals(m3));
+	CHECK(!m2.equals(m3));
+	CHECK(!m2.equals(m4));
+	CHECK(!m3.equals(m4));
+	
+	Matrix m5(3,7,12), m6(3,7,12), m7(3,4,12), m8(3,4,7);
+	CHECK(m5.equals(m6));
+	CHECK(!m5.equals(m7));
+	CHECK(!m7.equals(m8));
+}
+
+// 8
+TEST(MatrixAddition){
+	Matrix m1(5,5,10), m2(5,5,12), m3(4,4,2), m4(4,4);
+	CHECK(Matrix(5,5,22).equals(m1+m2));
+	try{
+		Matrix t = m1+m3;
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	try{
+		Matrix t = m1+m4;
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	try{
+		Matrix t = m2+m3;
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	try{
+		Matrix t = m2+m4;
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	CHECK(Matrix(4,4,2).equals(m3+m4));
+}
+
 int main(){
 	return UnitTest::RunAllTests();
 }
