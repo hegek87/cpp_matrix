@@ -18,6 +18,12 @@ mat(row*col, val){
 	}
 }
 
+Matrix::Matrix(const Matrix& copy) : rows(copy.rows), cols(copy.cols), 
+mat(copy.mat){}
+
+Matrix::~Matrix(){}
+//Matrix& Matrix::operator=(Matrix other){}
+
 // index into the ith row, jth column
 double Matrix::operator()(const int i, const int j) const{
 	if(i > this->rows || i < 0 || j < 0 || j > this->cols){
@@ -73,6 +79,24 @@ Matrix Matrix::operator-(const Matrix& other){
 	return t;
 }
 
-std::vector<double>& Matrix::getMat(){ return this->mat; }
+Matrix Matrix::identity(int size){
+	Matrix id(size,size);
+	for(int i = 0; i < size; ++i){
+		id(i,i) = 1;
+	}
+	return id;
+}
 
-Matrix::~Matrix(){}	
+Matrix Matrix::operator*(const double factor){
+	//if(!factor){ return Matrix(rows,cols); }
+	//if(factor == 1){ return *this; }
+	Matrix scaled(rows,cols);
+	for(int i = 0; i < rows; ++i){
+		for(int j = 0; j < cols; ++j){
+			scaled(i,j) = (*this)(i,j)*factor;
+		}
+	}
+	return scaled;
+}
+
+std::vector<double>& Matrix::getMat(){ return this->mat; }	

@@ -30,6 +30,7 @@ class Matrix{
 		
 		Matrix(const Matrix&);
 		~Matrix();
+		Matrix& operator=(Matrix);
 		
 		Vector3d matrixMulVec(const Matrix&, const Vector3d&);
 		Vector3d matrixMulDir(const Matrix&, const Vector3d&);
@@ -39,7 +40,7 @@ class Matrix{
 		Matrix operator*(const double);
 		double operator()(const int, const int) const;
 		double& operator()(const int, const int);
-		Matrix identity(int);
+		static Matrix identity(int);
 		Matrix inverse();
 		std::vector<double>& getMat();
 		bool equals(const Matrix&);
