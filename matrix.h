@@ -32,6 +32,8 @@ class Matrix{
 		~Matrix();
 		Matrix& operator=(Matrix);
 		
+		friend void swap(Matrix&,Matrix&);
+		
 		Vector3d matrixMulVec(const Matrix&, const Vector3d&);
 		Vector3d matrixMulDir(const Matrix&, const Vector3d&);
 		Matrix operator+(const Matrix&);

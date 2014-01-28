@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+//#include <vector>
 #include "matrix.h"
 
 
@@ -23,6 +24,19 @@ mat(copy.mat){}
 
 Matrix::~Matrix(){}
 //Matrix& Matrix::operator=(Matrix other){}
+
+void swap(Matrix& first, Matrix& second){
+	using std::swap;
+	
+	swap(first.rows, first.rows);
+	swap(first.cols, second.cols);
+	first.mat.swap(second.mat);
+}
+
+Matrix& Matrix::operator=(Matrix other){
+	swap(*this, other);
+	return *this;
+}	
 
 // index into the ith row, jth column
 double Matrix::operator()(const int i, const int j) const{
