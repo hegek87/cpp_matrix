@@ -101,6 +101,7 @@ Matrix Matrix::operator*(const Matrix& other){
 	if(this->cols != other.rows){
 		throw InvalidSize("Cannot multiply matrices");
 	}
+	return Matrix(this->rows,other.cols);
 }		
 
 Matrix Matrix::identity(int size){
@@ -112,8 +113,8 @@ Matrix Matrix::identity(int size){
 }
 
 Matrix Matrix::operator*(const double factor){
-	//if(!factor){ return Matrix(rows,cols); }
-	//if(factor == 1){ return *this; }
+	if(!factor){ return Matrix(rows,cols); }
+	if(factor == 1){ return *this; }
 	Matrix scaled(rows,cols);
 	for(int i = 0; i < rows; ++i){
 		for(int j = 0; j < cols; ++j){
