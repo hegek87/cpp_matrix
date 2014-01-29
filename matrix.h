@@ -26,7 +26,7 @@ class Matrix{
 	public:
 		Matrix(int, int);
 		Matrix(int, int, double);
-		Matrix(double **);
+		Matrix(std::vector<double>);
 		
 		Matrix(const Matrix&);
 		~Matrix();

@@ -25,6 +25,8 @@ mat(copy.mat){}
 Matrix::~Matrix(){}
 //Matrix& Matrix::operator=(Matrix other){}
 
+Matrix::Matrix(std::vector<double> mat){}
+
 void swap(Matrix& first, Matrix& second){
 	using std::swap;
 	
@@ -94,14 +96,26 @@ Matrix Matrix::operator-(const Matrix& other){
 }
 
 /*
-* for now an O(n^3) implementation works. Later we will implement 
-*  Strassen's algorithm for an O(2.8) implementation.
+* For now an O(n^3) implementation works. Later we will implement 
+* Strassen's algorithm for an O(2.8) implementation.
 */
 Matrix Matrix::operator*(const Matrix& other){
 	if(this->cols != other.rows){
 		throw InvalidSize("Cannot multiply matrices");
 	}
-	return Matrix(this->rows,other.cols);
+	Matrix res(this->rows, other.cols);
+	// for each row in *this
+	for(int i = 0; i < this->rows; ++i){
+		// and for each col in other
+		for(int j = 0; j < other.cols; ++j){
+			//multiply the ith row and jth col and store in res(i,j)
+			// this->cols == others.rows
+			for(int k = 0; k < this->cols; ++k){
+				res(i,j) += (*this)(i,k)*other(k,j);
+			}
+		}
+	}
+	return res;
 }		
 
 Matrix Matrix::identity(int size){
