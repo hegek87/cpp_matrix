@@ -181,6 +181,42 @@ TEST(ScalarMult){
 	CHECK(Matrix(5,5,4.94128).equals(m4*3.14159265));
 }
 	
+// 12
+TEST(MatrixMult){
+	Matrix m1(3,3,1),m2(3,4,5),m3(4,3,8),m4(5,7,1),m5(7,4,10);
+	CHECK(Matrix(3,4,15).equals(m1*m2));
+	try{
+		m2*m1;
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	CHECK(Matrix(3,3,160).equals(m2*m3));
+	CHECK(Matrix(5,4,70).equals(m4*m5));
+	try{
+		m4*m2;
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+}
+
+// 13
+TEST(CopyConstructor){
+	Matrix m1(5,5,0), m2(m1), m3(m2),m4(1,2,5), m5(m4);
+	CHECK(m1.equals(m2));
+	CHECK(m2.equals(m3));
+	CHECK(m3.equals(m1));
+	CHECK(m4.equals(m5));
+}
+
+TEST(Assignment){
+	Matrix m1(3,5,7), m2 = m1, m3(1,1), m4 = m3, m5(1,5,7), m6 = m5;
+	CHECK(m1.equals(m2));
+	CHECK(m3.equals(m4));
+	CHECK(m5.equals(m6));
+	
+	Matrix m7 = m2=m1;
+	CHECK(m7.equals(m1));
+	CHECK(m2.equals(m1));
+	CHECK(m7.equals(m2));
+}
 
 int main(){
 	return UnitTest::RunAllTests();

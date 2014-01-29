@@ -93,6 +93,16 @@ Matrix Matrix::operator-(const Matrix& other){
 	return t;
 }
 
+/*
+* for now an O(n^3) implementation works. Later we will implement 
+*  Strassen's algorithm for an O(2.8) implementation.
+*/
+Matrix Matrix::operator*(const Matrix& other){
+	if(this->cols != other.rows){
+		throw InvalidSize("Cannot multiply matrices");
+	}
+}		
+
 Matrix Matrix::identity(int size){
 	Matrix id(size,size);
 	for(int i = 0; i < size; ++i){
