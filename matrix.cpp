@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cmath>
-//#include <vector>
 #include "matrix.h"
 
 
@@ -25,7 +24,12 @@ mat(copy.mat){}
 Matrix::~Matrix(){}
 //Matrix& Matrix::operator=(Matrix other){}
 
-Matrix::Matrix(std::vector<double> mat){}
+Matrix::Matrix(int row, int col, std::vector<double>& matrix): rows(row), cols(col), mat(row*col,0){
+	if(row < 0 || col < 0){
+		throw InvalidArgument("Rows and Cols must be > 0\n");
+	}
+	std::copy(matrix.begin(), matrix.end(), this->mat.begin());
+}
 
 void swap(Matrix& first, Matrix& second){
 	using std::swap;

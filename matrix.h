@@ -26,7 +26,7 @@ class Matrix{
 	public:
 		Matrix(int, int);
 		Matrix(int, int, double);
-		Matrix(std::vector<double>);
+		Matrix(int,int,std::vector<double>&);
 		
 		Matrix(const Matrix&);
 		~Matrix();
@@ -46,5 +46,8 @@ class Matrix{
 		Matrix inverse();
 		std::vector<double>& getMat();
 		bool equals(const Matrix&);
+		
+		double determinant();
+		double cofactor(int,int);
 };
 #endif

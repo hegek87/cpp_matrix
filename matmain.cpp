@@ -1,6 +1,7 @@
 #include "matrix.h"
 #include <iostream>
 #include <UnitTest++/UnitTest++.h>
+#include <vector>
 
 struct MatrixStructure{
 	Matrix m1, m2, m3, m4;
@@ -206,6 +207,7 @@ TEST(CopyConstructor){
 	CHECK(m4.equals(m5));
 }
 
+// 14
 TEST(Assignment){
 	Matrix m1(3,5,7), m2 = m1, m3(1,1), m4 = m3, m5(1,5,7), m6 = m5;
 	CHECK(m1.equals(m2));
@@ -216,6 +218,32 @@ TEST(Assignment){
 	CHECK(m7.equals(m1));
 	CHECK(m2.equals(m1));
 	CHECK(m7.equals(m2));
+}
+
+// 15
+
+TEST(VectorConstruct){
+	std::vector<double> v1;
+	for(int i = 0; i < 20; ++i){
+		v1.push_back(i);
+	}
+	
+	Matrix m1(5,4,v1);
+	for(int i = 0; i < 5; ++i){
+		for(int j = 0; j < 4; ++j){
+			CHECK_CLOSE(v1[i*4+j],m1(i,j),0.01);
+		}
+	}
+	
+	std::vector<double> v2;
+	Matrix m2(10,11,v2);
+	CHECK(Matrix(10,11).equals(m2));
+	
+	for(int i = 0; i < 10; ++i){
+		for(int j = 0; j < 11; ++j){
+			CHECK_CLOSE(0,m2(i,j),0.01);
+		}
+	}
 }
 
 int main(){
