@@ -221,7 +221,6 @@ TEST(Assignment){
 }
 
 // 15
-
 TEST(VectorConstruct){
 	std::vector<double> v1;
 	for(int i = 0; i < 20; ++i){
@@ -244,6 +243,22 @@ TEST(VectorConstruct){
 			CHECK_CLOSE(0,m2(i,j),0.01);
 		}
 	}
+}
+
+// 16
+TEST(Determinant){
+	Matrix m1(2,2), m2(3,3,5), m3(4,5,0.2), m4(100,100,5);
+	std::vector<double> matData;
+	for(int i = 0; i < 36; ++i){ matData.push_back(i); }
+	Matrix m5(6,6,matData);
+	CHECK_CLOSE(0,m1.determinant(),0.01);
+	CHECK_CLOSE(0,m2.determinant(),0.01);
+	try{
+		m3.determinant();
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	CHECK_CLOSE(0,m4.determinant(),0.01);
+	CHECK_CLOSE(0,m5.determinant(),0.01);
 }
 
 int main(){
