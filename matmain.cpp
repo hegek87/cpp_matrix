@@ -291,13 +291,25 @@ TEST(BackSub){
 	a2(3,0)=1.0/2.0,a2(4,0)=(37.0/15.0),a2(5,0)=(13.0/9.0);
 	CHECK(a2.equals(m2.backSub(x2)));
 	
-	/*
-	for(int i = 0; i < 8; ++i){
-		for(int j = 0; j < 8; ++j){
-			std::cout << m3(i,j) << " ";
-		}
-		std::cout << std::endl;
-	}*/
+	Matrix m4(3,2), m5(3,5);
+	try{
+		m4.forwardSub(Matrix(3,1));
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	try{
+		m5.forwardSub(Matrix(3,1));
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	
+	Matrix m6(3,3), m7(4,4);
+	try{
+		m6.forwardSub(Matrix(2,1));
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	try{
+		m7.forwardSub(Matrix(4,2));
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
 }
 
 // 18
@@ -338,6 +350,26 @@ TEST(ForwardSub){
 	x3(0,0)=10,x3(1,0)=150;
 	a3(0,0)=10,a3(1,0)=32.5;
 	CHECK(a3.equals(m3.forwardSub(x3)));
+	
+	Matrix m4(3,2), m5(3,5);
+	try{
+		m4.forwardSub(Matrix(3,1));
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	try{
+		m5.forwardSub(Matrix(3,1));
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	
+	Matrix m6(3,3), m7(4,4);
+	try{
+		m6.forwardSub(Matrix(2,1));
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
+	try{
+		m7.forwardSub(Matrix(4,2));
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
 }
 int main(){
 	return UnitTest::RunAllTests();

@@ -130,6 +130,12 @@ double Matrix::determinant(){
 }
 
 Matrix Matrix::backSub(const Matrix ans){
+	if(this->rows != this->cols){
+		throw InvalidSize("Matrix must be square");
+	}
+	if(ans.rows != this->rows || ans.cols != 1){
+		throw InvalidSize("The answer matrix is of wrong size");
+	}
 	int n = this->rows;
 	std::vector<double> res(n);
 	res[this->rows-1] = ans(this->rows-1,0)/(*this)(n-1,n-1);
@@ -146,6 +152,12 @@ Matrix Matrix::backSub(const Matrix ans){
 }
 
 Matrix Matrix::forwardSub(const Matrix ans){
+	if(this->rows != this->cols){
+		throw InvalidSize("Matrix must be square");
+	}
+	if(ans.rows != this->rows || ans.cols != 1){
+		throw InvalidSize("The answer matrix is of wrong size");
+	}
 	int n = this->rows;
 	std::vector<double> res(n);
 	res[0] = ans(0,0) / (*this)(0,0);
