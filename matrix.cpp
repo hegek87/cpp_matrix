@@ -129,7 +129,7 @@ double Matrix::determinant(){
 	return 0;
 }
 
-Matrix Matrix::backSub(Matrix ans){
+Matrix Matrix::backSub(const Matrix ans){
 	int n = this->rows;
 	std::vector<double> res(n);
 	res[this->rows-1] = ans(this->rows-1,0)/(*this)(n-1,n-1);
@@ -137,6 +137,22 @@ Matrix Matrix::backSub(Matrix ans){
 		res[i] = ans(i,0);
 		double temp = 0;
 		for(int j = i+1; j < n; ++j){
+			temp += (*this)(i,j)*res[j];
+		}
+		res[i] -= temp;
+		res[i] /= (*this)(i,i);
+	}
+	return Matrix(n,1,res);
+}
+
+Matrix Matrix::forwardSub(const Matrix ans){
+	int n = this->rows;
+	std::vector<double> res(n);
+	res[0] = ans(0,0) / (*this)(0,0);
+	for(int i = 1; i < n; ++i){
+		res[i] = ans(i,0);
+		double temp = 0;
+		for(int j = 0; j < i; ++j){
 			temp += (*this)(i,j)*res[j];
 		}
 		res[i] -= temp;

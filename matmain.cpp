@@ -299,6 +299,46 @@ TEST(BackSub){
 		std::cout << std::endl;
 	}*/
 }
+
+// 18
+TEST(ForwardSub){
+	Matrix m1(3,3),m2(4,4), m3(2,2);
+	for(int i = 0; i < 3; ++i){
+		for(int j = 0; j < 3; ++j){
+			if(i >= j){
+				m1(i,j) = (i+1)*(j+1);
+			}
+		}
+	}
+	for(int i = 0; i < 4; ++i){
+		for(int j = 0; j < 4; ++j){
+			if(i >= j){
+				m2(i,j) = (i+1)*(j+1);
+			}
+		}
+	}
+	for(int i = 0; i < 2; ++i){
+		for(int j = 0; j < 2; ++j){
+			if(i >= j){
+				m3(i,j) = (i+1)*(j+1);
+			}
+		}
+	}
+	
+	Matrix a1(3,1),a2(4,1),a3(2,1);
+	Matrix x1(3,1),x2(4,1),x3(2,1);
+	x1(0,0)=107.34,x1(1,0)=87.43,x1(2,0)=12.42;
+	a1(0,0)=107.34,a1(1,0)=-31.8125,a1(2,0)=-13.1917;
+	CHECK(a1.equals(m1.forwardSub(x1)));
+	
+	x2(0,0)=19,x2(1,0)=102.423,x2(2,0)=20,x2(3,0)=84;
+	a2(0,0)=19,a2(1,0)=16.1058,a2(2,0)=-14.8483,a2(3,0)=3.58333;
+	CHECK(a2.equals(m2.forwardSub(x2)));
+	
+	x3(0,0)=10,x3(1,0)=150;
+	a3(0,0)=10,a3(1,0)=32.5;
+	CHECK(a3.equals(m3.forwardSub(x3)));
+}
 int main(){
 	return UnitTest::RunAllTests();
 }
