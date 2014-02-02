@@ -261,6 +261,44 @@ TEST(Determinant){
 	CHECK_CLOSE(0,m5.determinant(),0.01);
 }
 
+// 17
+TEST(BackSub){
+	Matrix m1(5,5), m2(6,6);
+	Matrix a1(5,1), a2(6,1);
+	Matrix x1(5,1), x2(6,1);
+	
+	for(int i = 0; i < 5; ++i){
+		for(int j = 0; j < 5; ++j){
+			if(i <= j){
+				m1(i,j) = (i+1)*(j+1);
+			}
+		}
+	}
+	for(int i = 0; i < 6; ++i){
+		for(int j = 0; j < 6; ++j){
+			if(i <= j){
+				m2(i,j) = (i+1)*(j+1);
+			}
+		}
+	}
+	x1(0,0)=70,x1(1,0)=50,x1(2,0)=200,x1(3,0)=115,x1(4,0)=100;
+	a1(0,0) = 45, a1(1,0)=-(125.0/6.0), a1(2,0)=(455.0/36.0);
+	a1(3,0)=(35.0/16.0), a1(4,0)=4;
+	CHECK(a1.equals(m1.backSub(x1)));
+	
+	x2(0,0)=10,x2(1,0)=17,x2(2,0)=8,x2(3,0)=92,x2(4,0)=105,x2(5,0)=52;
+	a2(0,0)=(3.0/2.0), a2(1,0)=(35.0/12.0),a2(2,0)=-(61.0/9.0);
+	a2(3,0)=1.0/2.0,a2(4,0)=(37.0/15.0),a2(5,0)=(13.0/9.0);
+	CHECK(a2.equals(m2.backSub(x2)));
+	
+	/*
+	for(int i = 0; i < 8; ++i){
+		for(int j = 0; j < 8; ++j){
+			std::cout << m3(i,j) << " ";
+		}
+		std::cout << std::endl;
+	}*/
+}
 int main(){
 	return UnitTest::RunAllTests();
 }

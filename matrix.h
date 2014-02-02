@@ -49,7 +49,8 @@ class Matrix{
 		
 		double determinant();
 		double cofactor(int,int);
-		Matrix[2] decomposeLUP();
+		Matrix backSub(Matrix);
+		//Matrix[2] decomposeLUP();
 		Matrix gaussianElimination();
 };
 #endif

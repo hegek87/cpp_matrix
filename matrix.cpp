@@ -120,7 +120,30 @@ Matrix Matrix::operator*(const Matrix& other){
 		}
 	}
 	return res;
-}		
+}
+
+double Matrix::determinant(){
+	if(this->rows != this->cols){
+		throw InvalidSize("Matrix must be square");
+	}
+	return 0;
+}
+
+Matrix Matrix::backSub(Matrix ans){
+	int n = this->rows;
+	std::vector<double> res(n);
+	res[this->rows-1] = ans(this->rows-1,0)/(*this)(n-1,n-1);
+	for(int i = n-2; i >= 0; --i){
+		res[i] = ans(i,0);
+		double temp = 0;
+		for(int j = i+1; j < n; ++j){
+			temp += (*this)(i,j)*res[j];
+		}
+		res[i] -= temp;
+		res[i] /= (*this)(i,i);
+	}
+	return Matrix(n,1,res);
+}
 
 Matrix Matrix::identity(int size){
 	Matrix id(size,size);
