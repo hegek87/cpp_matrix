@@ -183,17 +183,19 @@ Matrix Matrix::forwardSub(const Matrix ans){
 }
 
 resultLU Matrix::decomposeLU(){
-	int n = this->rows;
+	// create a copy - we don't want to alter the matrix
+	Matrix a(*this);
+	int n = a.rows;
 	Matrix u(n,n), l=identity(n);
 	for(int i = 0; i < n; ++i){
-		u(i,i) = (*this)(i,i);
+		u(i,i) = a(i,i);
 		for(int j = i+1; j < n; ++j){
-			l(j,i) = (*this)(j,i)/u(i,i);
-			u(i,j) = (*this)(i,j);
+			l(j,i) = a(j,i)/u(i,i);
+			u(i,j) = a(i,j);
 		}
 		for(int j = i+1; j < n; ++j){
 			for(int k = i+1; k < n; ++k){
-				(*this)(j,k) = (*this)(j,k)-(l(j,i)*u(i,k));
+				a(j,k) = a(j,k)-(l(j,i)*u(i,k));
 			}
 		}
 	}

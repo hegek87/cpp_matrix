@@ -246,6 +246,7 @@ TEST(VectorConstruct){
 }
 
 // 16
+/*
 TEST(Determinant){
 	Matrix m1(2,2), m2(3,3,5), m3(4,5,0.2), m4(100,100,5);
 	std::vector<double> matData;
@@ -264,11 +265,11 @@ TEST(Determinant){
 	v6.push_back(3);v6.push_back(8);v6.push_back(2);
 	Matrix m6(3,3,v6);
 	CHECK_CLOSE(21, m6.determinant(), 0.01);
-	/*
+	
 	CHECK_CLOSE(0,m4.determinant(),0.01);
 	CHECK_CLOSE(0,m5.determinant(),0.01);
-*/
-}
+
+}*/
 
 // 17
 TEST(BackSub){
@@ -401,11 +402,12 @@ TEST(LUDecompose){
 	v3.push_back(0);v3.push_back(0);v3.push_back(1);v3.push_back(2);
 	v3.push_back(0);v3.push_back(0);v3.push_back(0);v3.push_back(3);
 	
-	Matrix m1(4,4,v1),m2(4,4,v2),m3(4,4,v3);
+	Matrix m1(4,4,v1),m2(4,4,v2),m3(4,4,v3),m4(4,4,v1);
 	
 	resultLU dlu = m1.decomposeLU();
 	CHECK(dlu.lower.equals(m2));
 	CHECK(dlu.upper.equals(m3));
+	CHECK(m4.equals(m1));
 }
 	
 	
