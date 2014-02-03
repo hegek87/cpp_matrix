@@ -258,6 +258,12 @@ TEST(Determinant){
 		m3.determinant();
 		CHECK(false);
 	} catch(InvalidSize is){ CHECK(true); }
+	std::vector<double> v6;
+	v6.push_back(1);v6.push_back(2);v6.push_back(3);
+	v6.push_back(2);v6.push_back(1);v6.push_back(6);
+	v6.push_back(3);v6.push_back(8);v6.push_back(2);
+	Matrix m6(3,3,v6);
+	CHECK_CLOSE(21, m6.determinant(), 0.01);
 	/*
 	CHECK_CLOSE(0,m4.determinant(),0.01);
 	CHECK_CLOSE(0,m5.determinant(),0.01);

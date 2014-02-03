@@ -60,7 +60,7 @@ class Matrix{
 		Matrix backSub(const Matrix);
 		Matrix forwardSub(const Matrix);
 		resultLU decomposeLU();
-		void decomposeLUP();
+		Matrix decomposeLUP();
 		Matrix gaussianElimination();
 };
 

@@ -126,12 +126,14 @@ double Matrix::determinant(){
 	if(this->rows != this->cols){
 		throw InvalidSize("Matrix must be square");
 	}
+	Matrix perm(this->rows, 1);
 	try{
-		this->decomposeLUP();
+		perm = this->decomposeLUP();
 	} catch(SingularMatrix sm){ return 0; }
 	double temp = 1;
 	for(int i = 0; i < this->rows; ++i){
-		temp *= (*this)(i,i);
+	std::cout << (*this)(i,i) << std::endl;
+		temp *= (*this)(perm(i,0),perm(i,0));
 	}
 	return temp;
 }
@@ -198,7 +200,7 @@ resultLU Matrix::decomposeLU(){
 	return resultLU(l,u);
 }
 
-void Matrix::decomposeLUP(){
+Matrix Matrix::decomposeLUP(){
 	int n = this->rows;
 	double kp;
 	Matrix perm(n,1);
@@ -228,6 +230,7 @@ void Matrix::decomposeLUP(){
 			}
 		}
 	}
+	return perm;
 }
 
 Matrix Matrix::identity(int size){
