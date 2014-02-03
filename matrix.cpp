@@ -126,7 +126,14 @@ double Matrix::determinant(){
 	if(this->rows != this->cols){
 		throw InvalidSize("Matrix must be square");
 	}
-	return 0;
+	try{
+		this->decomposeLUP();
+	} catch(SingularMatrix sm){ return 0; }
+	double temp = 1;
+	for(int i = 0; i < this->rows; ++i){
+		temp *= (*this)(i,i);
+	}
+	return temp;
 }
 
 Matrix Matrix::backSub(const Matrix ans){
@@ -171,6 +178,56 @@ Matrix Matrix::forwardSub(const Matrix ans){
 		res[i] /= (*this)(i,i);
 	}
 	return Matrix(n,1,res);
+}
+
+resultLU Matrix::decomposeLU(){
+	int n = this->rows;
+	Matrix u(n,n), l=identity(n);
+	for(int i = 0; i < n; ++i){
+		u(i,i) = (*this)(i,i);
+		for(int j = i+1; j < n; ++j){
+			l(j,i) = (*this)(j,i)/u(i,i);
+			u(i,j) = (*this)(i,j);
+		}
+		for(int j = i+1; j < n; ++j){
+			for(int k = i+1; k < n; ++k){
+				(*this)(j,k) = (*this)(j,k)-(l(j,i)*u(i,k));
+			}
+		}
+	}
+	return resultLU(l,u);
+}
+
+void Matrix::decomposeLUP(){
+	int n = this->rows;
+	double kp;
+	Matrix perm(n,1);
+	for(int i = 0; i < n; ++i){
+		perm(i,0) = i;
+	}
+	for(int k = 0; k < n-1; ++k){
+		double p = 0;
+		for(int i = k; i < n; ++i){
+			if(std::abs((*this)(i,k)) > p){
+				p = std::abs((*this)(i,k));
+				kp = i;
+			}
+		}
+		if(p == 0){
+			throw SingularMatrix("Matrix is singular");
+		}
+		std::swap(perm(k,0),perm(kp,0));
+		for(int i = 0; i < n; ++i){
+			std::swap((*this)(k,i),(*this)(kp,i));
+		}
+		for(int i = k+1; i < n; ++i){
+			(*this)(i,k) = (*this)(i,k)/(*this)(k,k);
+			for(int j = k+1; j < n; ++j){
+				(*this)(i,j)=
+					(*this)(i,j)-(((*this)(i,j))*((*this)(k,j)));
+			}
+		}
+	}
 }
 
 Matrix Matrix::identity(int size){

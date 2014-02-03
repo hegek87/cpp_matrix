@@ -3,6 +3,7 @@
 #include "../vector3d/vector3d.h"
 #include <vector>
 #include <string>
+struct resultLU;
 
 struct InvalidArgument : public std::exception{
 	std::string message;
@@ -15,6 +16,13 @@ struct InvalidSize : public std::exception{
 	std::string message;
 	InvalidSize(std::string mes) : message(mes){}
 	~InvalidSize() throw(){}
+	const char *what() const throw(){ return message.c_str(); }
+};
+
+struct SingularMatrix : public std::exception{
+	std::string message;
+	SingularMatrix(std::string mes) : message(mes) {}
+	~SingularMatrix() throw() {}
 	const char *what() const throw(){ return message.c_str(); }
 };
 
@@ -51,7 +59,14 @@ class Matrix{
 		double cofactor(int,int);
 		Matrix backSub(const Matrix);
 		Matrix forwardSub(const Matrix);
-		//Matrix[2] decomposeLUP();
+		resultLU decomposeLU();
+		void decomposeLUP();
 		Matrix gaussianElimination();
+};
+
+struct resultLU{
+	Matrix lower;
+	Matrix upper;
+	resultLU(Matrix lower, Matrix upper) : lower(lower), upper(upper){}
 };
 #endif
