@@ -202,36 +202,25 @@ resultLU Matrix::decomposeLU(){
 	return resultLU(l,u);
 }
 
+/*
+* Algorithm similar to that found in cormen et al. I changed the program
+* so it does not do the decomposition in place, and in fact, does not
+* modify (*this)
+*/
 Matrix Matrix::decomposeLUP(){
-	int n = this->rows;
-	double kp;
+	Matrix a(*this);
+	int n = a.rows;
+	double pIndex;
 	Matrix perm(n,1);
+	// assume that the permutation is the identity
 	for(int i = 0; i < n; ++i){
 		perm(i,0) = i;
 	}
-	for(int k = 0; k < n-1; ++k){
-		double p = 0;
-		for(int i = k; i < n; ++i){
-			if(std::abs((*this)(i,k)) > p){
-				p = std::abs((*this)(i,k));
-				kp = i;
-			}
-		}
-		if(p == 0){
-			throw SingularMatrix("Matrix is singular");
-		}
-		std::swap(perm(k,0),perm(kp,0));
-		for(int i = 0; i < n; ++i){
-			std::swap((*this)(k,i),(*this)(kp,i));
-		}
-		for(int i = k+1; i < n; ++i){
-			(*this)(i,k) = (*this)(i,k)/(*this)(k,k);
-			for(int j = k+1; j < n; ++j){
-				(*this)(i,j)=
-					(*this)(i,j)-(((*this)(i,j))*((*this)(k,j)));
-			}
-		}
-	}
+	for(int i = 0; i < n; ++i){
+		//find the pivot
+		double pivot = std::abs(a(i,i));
+		for(int j = i+1; j < n; ++j){
+			if(std::abs(a(j,i)) > pivot
 	return perm;
 }
 

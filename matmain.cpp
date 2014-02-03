@@ -412,7 +412,5 @@ TEST(LUDecompose){
 	
 	
 int main(){
-	Matrix m(3,3);
-	m.determinant();
 	return UnitTest::RunAllTests();
 }
