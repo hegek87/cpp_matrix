@@ -404,13 +404,63 @@ TEST(LUDecompose){
 	
 	Matrix m1(4,4,v1),m2(4,4,v2),m3(4,4,v3),m4(4,4,v1);
 	
-	resultLU dlu = m1.decomposeLU();
+	ResultLU dlu = m1.decomposeLU();
 	CHECK(dlu.lower.equals(m2));
 	CHECK(dlu.upper.equals(m3));
 	CHECK(m4.equals(m1));
 }
+
+TEST(LUPDecompose){
+	std::vector<double> v1;
+	v1.push_back(2);v1.push_back(0);v1.push_back(2);v1.push_back(0.6);
+	v1.push_back(3);v1.push_back(3);v1.push_back(4);v1.push_back(-2);
+	v1.push_back(5);v1.push_back(5);v1.push_back(4);v1.push_back(2);
+	v1.push_back(-1);v1.push_back(-2);v1.push_back(3.4);v1.push_back(-1);
 	
+	std::vector<double> v2;
+	v2.push_back(1);v2.push_back(0);v2.push_back(0);v2.push_back(0);
+	v2.push_back(0.4);v2.push_back(1);v2.push_back(0);v2.push_back(0);
+	v2.push_back(-0.2);v2.push_back(0.5);v2.push_back(1);v2.push_back(0);
+	v2.push_back(0.6);v2.push_back(0);v2.push_back(0.4);v2.push_back(1);
+	
+	std::vector<double> v3;
+	v3.push_back(5);v3.push_back(5);v3.push_back(4);v3.push_back(2);
+	v3.push_back(0);v3.push_back(-2);v3.push_back(0.4);v3.push_back(-0.2);
+	v3.push_back(0);v3.push_back(0);v3.push_back(4);v3.push_back(-0.5);
+	v3.push_back(0);v3.push_back(0);v3.push_back(0);v3.push_back(-3);
+	
+	Matrix m1(4,4,v1),m2(4,4,v2),m3(4,4,v3);
+	ResultLUP res = m1.decomposeLUP();
+	Matrix m4 = res.lu.lower, m5 = res.lu.upper;
+	std::cout << "LOWER:" << std::endl;
+	for(int i = 0; i < 4; ++i){
+		for(int j = 0; j < 4; ++j){
+			std::cout << m4(i,j) << "\t ";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << "UPPER:" << std::endl;
+	for(int i = 0; i < 4; ++i){
+		for(int j = 0; j < 4; ++j){
+			std::cout << m5(i,j) << "\t ";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << "PERMUTATIONS:" << std::endl;
+	for(int i = 0; i < 4; ++i){
+		std::cout << res.permutation(i,0) << std::endl;
+	}
+	CHECK(m4.equals(m2));
+	CHECK(m5.equals(m3));
+}	
 	
 int main(){
+/*
+	std::vector<double> v1;
+	v1.push_back(2);v1.push_back(0);v1.push_back(2);v1.push_back(0.6);
+	v1.push_back(3);v1.push_back(3);v1.push_back(4);v1.push_back(-2);
+	v1.push_back(5);v1.push_back(5);v1.push_back(4);v1.push_back(2);
+	v1.push_back(-1);v1.push_back(-2);v1.push_back(3.4);v1.push_back(-1);
+	ResultLU r = Matrix(4,4,v1).decomposeLUP();*/
 	return UnitTest::RunAllTests();
 }

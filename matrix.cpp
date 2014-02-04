@@ -122,6 +122,7 @@ Matrix Matrix::operator*(const Matrix& other){
 	return res;
 }
 
+/*
 double Matrix::determinant(){
 	if(this->rows != this->cols){
 		throw InvalidSize("Matrix must be square");
@@ -136,7 +137,7 @@ double Matrix::determinant(){
 		temp *= (*this)(perm(i,0),perm(i,0));
 	}
 	return temp;
-}
+}*/
 
 Matrix Matrix::backSub(const Matrix ans){
 	if(this->rows != this->cols){
@@ -182,7 +183,7 @@ Matrix Matrix::forwardSub(const Matrix ans){
 	return Matrix(n,1,res);
 }
 
-resultLU Matrix::decomposeLU(){
+ResultLU Matrix::decomposeLU(){
 	// create a copy - we don't want to alter the matrix
 	Matrix a(*this);
 	int n = a.rows;
@@ -199,7 +200,7 @@ resultLU Matrix::decomposeLU(){
 			}
 		}
 	}
-	return resultLU(l,u);
+	return ResultLU(l,u);
 }
 
 /*
@@ -207,21 +208,46 @@ resultLU Matrix::decomposeLU(){
 * so it does not do the decomposition in place, and in fact, does not
 * modify (*this)
 */
-Matrix Matrix::decomposeLUP(){
-	Matrix a(*this);
-	int n = a.rows;
+
+ResultLUP Matrix::decomposeLUP(){
+	int n = this->rows;
+	Matrix a(*this), perm(n,1), u(n,n), l = identity(n);
 	double pIndex;
-	Matrix perm(n,1);
 	// assume that the permutation is the identity
 	for(int i = 0; i < n; ++i){
 		perm(i,0) = i;
 	}
-	for(int i = 0; i < n; ++i){
+	for(int i = 0; i < n-1; ++i){
 		//find the pivot
-		double pivot = std::abs(a(i,i));
+		double pivot = 0;
+		for(int j = i; j < n; ++j){
+			if(std::abs(a(j,i)) > pivot){
+				pivot =  a(j,i);
+				pIndex = j;
+			}
+		}
+		if(pivot == 0){
+			throw SingularMatrix("Matrix is singular");
+		}
+		//swap perm(pIndex) with perm(i,0)
+		std::swap(perm(pIndex,0), perm(i,0));
+		//swap the rows
+		for(int j = 0; j < n; ++j){
+			std::swap(a(i,perm(pIndex,0)), a(i,perm(i,0)));
+		}
+		u(i,i) = a(i,i);
+		// calculate v and w^T
 		for(int j = i+1; j < n; ++j){
-			if(std::abs(a(j,i)) > pivot
-	return perm;
+			l(j,i) = a(j,i) / a(i,i);
+			u(i,j) = a(i,j);
+		}
+		for(int j = i+1; j < n; ++j){
+			for(int k = i+1; k < n; ++k){
+				a(j,k) = a(j,k) - (l(j,k)*u(k,j));
+			}
+		}
+	}
+	return ResultLUP(perm,ResultLU(l,u));
 }
 
 Matrix Matrix::identity(int size){

@@ -3,7 +3,8 @@
 #include "../vector3d/vector3d.h"
 #include <vector>
 #include <string>
-struct resultLU;
+struct ResultLU;
+struct ResultLUP;
 
 struct InvalidArgument : public std::exception{
 	std::string message;
@@ -59,14 +60,21 @@ class Matrix{
 		double cofactor(int,int);
 		Matrix backSub(const Matrix);
 		Matrix forwardSub(const Matrix);
-		resultLU decomposeLU();
-		Matrix decomposeLUP();
+		ResultLU decomposeLU();
+		ResultLUP decomposeLUP();
 		Matrix gaussianElimination();
 };
 
-struct resultLU{
+struct ResultLU{
 	Matrix lower;
 	Matrix upper;
-	resultLU(Matrix lower, Matrix upper) : lower(lower), upper(upper){}
+	ResultLU(Matrix lower, Matrix upper) : lower(lower), upper(upper){}
 };
+
+struct ResultLUP{
+	Matrix permutation;
+	ResultLU lu;
+	ResultLUP(Matrix perm, ResultLU lu) : permutation(perm), lu(lu){}
+};
+	
 #endif
