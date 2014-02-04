@@ -452,6 +452,7 @@ TEST(LUPDecompose){
 	}
 	CHECK(m4.equals(m2));
 	CHECK(m5.equals(m3));
+	CHECK(m1.equals(m4*m5));
 }	
 	
 int main(){

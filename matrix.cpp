@@ -217,12 +217,12 @@ ResultLUP Matrix::decomposeLUP(){
 	for(int i = 0; i < n; ++i){
 		perm(i,0) = i;
 	}
-	for(int i = 0; i < n-1; ++i){
+	for(int i = 0; i < n; ++i){
 		//find the pivot
 		double pivot = 0;
 		for(int j = i; j < n; ++j){
 			if(std::abs(a(j,i)) > pivot){
-				pivot =  a(j,i);
+				pivot =  std::abs(a(j,i));
 				pIndex = j;
 			}
 		}
@@ -233,7 +233,7 @@ ResultLUP Matrix::decomposeLUP(){
 		std::swap(perm(pIndex,0), perm(i,0));
 		//swap the rows
 		for(int j = 0; j < n; ++j){
-			std::swap(a(i,perm(pIndex,0)), a(i,perm(i,0)));
+			std::swap(a(i,j), a(pIndex,j));
 		}
 		u(i,i) = a(i,i);
 		// calculate v and w^T
