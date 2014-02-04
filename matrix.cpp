@@ -204,9 +204,10 @@ ResultLU Matrix::decomposeLU(){
 }
 
 /*
-* Algorithm similar to that found in cormen et al. I changed the program
-* so it does not do the decomposition in place, and in fact, does not
-* modify (*this)
+* Algorithm similar to that found in cormen et al. It is a little
+* different. First, we do not modify *this. We first copy *this, and
+* decompose the copy. After we have decomposed the copy, we fill the
+* Lower and Upper matrices appropriately.
 */
 
 ResultLUP Matrix::decomposeLUP(){
