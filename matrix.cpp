@@ -131,14 +131,15 @@ int Matrix::sign(){
 	if(this->cols != 1){
 		throw InvalidSize("Must be a column vector");
 	}
+	Matrix perm(this->rows, this->rows);
+	for(int i = 0; i < this->rows; ++i){
+		perm(i,(*this)(i,0)) = 1;
+	}
 	int inversionPairs = 0;
 	for(int i = 0; i < this->rows; ++i){
-		for(int j = i+1; j < this->rows; ++j){
-			for(int k = 0; k < (*this)(i,0); ++k){
-				if((*this)(k,0) == 1){
-					++inversionPairs;
-					k = (*this)(i,0);
-				}
+		for(int j = 0; j < (*this)(i,0); ++i){
+			if(perm(i,j) == 1){
+				++inversionPairs;
 			}
 		}
 	}
@@ -162,7 +163,7 @@ double Matrix::determinant(){
 		// calculate sgn(det(*this))
 		sign = decomp.permutation.sign();
 	} catch(SingularMatrix sm){ return 0; }
-	return -sign*temp;
+	return sign*temp;
 }
 
 Matrix Matrix::backSub(const Matrix ans){

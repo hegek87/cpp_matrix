@@ -33,8 +33,8 @@ class Matrix{
 		int cols;
 		std::vector<double> mat;
 		
-		int sign();
 	public:
+		int sign();
 		Matrix(int, int);
 		Matrix(int, int, double);
 		Matrix(int,int,std::vector<double>&);
