@@ -214,6 +214,7 @@ ResultLUP Matrix::decomposeLUP(){
 	Matrix a(*this), perm(n,1), u(n,n), l = identity(n);
 	double pIndex;
 	// assume that the permutation is the identity
+	// factor in place
 	for(int i = 0; i < n; ++i){
 		perm(i,0) = i;
 	}
@@ -231,19 +232,29 @@ ResultLUP Matrix::decomposeLUP(){
 		}
 		//swap perm(pIndex) with perm(i,0)
 		std::swap(perm(pIndex,0), perm(i,0));
-		//swap the rows
+		
 		for(int j = 0; j < n; ++j){
+			// swap the rows in a
 			std::swap(a(i,j), a(pIndex,j));
 		}
-		u(i,i) = a(i,i);
+		//u(i,i) = a(i,i);
 		// calculate v and w^T
 		for(int j = i+1; j < n; ++j){
-			l(j,i) = a(j,i) / a(i,i);
-			u(i,j) = a(i,j);
-		}
-		for(int j = i+1; j < n; ++j){
+			a(j,i) = a(j,i) / a(i,i);	// v/a(i,i)
 			for(int k = i+1; k < n; ++k){
-				a(j,k) = a(j,k) - (l(j,k)*u(k,j));
+				a(j,k) = a(j,k) - (a(j,i)*a(i,k));
+			}
+		}
+	}
+	// fill l and u
+	for(int i = 0; i < n; ++i){
+		for(int j = 0; j < n; ++j){
+			// below diagonal
+			if(i > j){
+				l(i,j) = a(i,j);
+			}
+			else{
+				u(i,j) = a(i,j);
 			}
 		}
 	}

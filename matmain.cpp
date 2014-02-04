@@ -450,9 +450,14 @@ TEST(LUPDecompose){
 	for(int i = 0; i < 4; ++i){
 		std::cout << res.permutation(i,0) << std::endl;
 	}
+	// construct permutation matrix
+	Matrix p(4,4);
+	for(int i = 0; i < 4; ++i){
+		p(i,res.permutation(i,0)) = 1;
+	}
 	CHECK(m4.equals(m2));
 	CHECK(m5.equals(m3));
-	CHECK(m1.equals(m4*m5));
+	CHECK((p*m1).equals(m4*m5));
 }	
 	
 int main(){
