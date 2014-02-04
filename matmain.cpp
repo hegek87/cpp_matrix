@@ -264,6 +264,13 @@ TEST(Determinant){
 	v6.push_back(3);v6.push_back(8);v6.push_back(2);
 	Matrix m6(3,3,v6);
 	CHECK_CLOSE(21, m6.determinant(), 0.01);
+	std::vector<double> v1;
+	v1.push_back(2);v1.push_back(3);v1.push_back(1);v1.push_back(5);
+	v1.push_back(6);v1.push_back(13);v1.push_back(5);v1.push_back(19);
+	v1.push_back(2);v1.push_back(19);v1.push_back(10);v1.push_back(23);
+	v1.push_back(4);v1.push_back(10);v1.push_back(11);v1.push_back(31);
+	Matrix m7(4,4,v1);
+	CHECK_CLOSE(120, m7.determinant(), 0.01);
 	
 	CHECK_CLOSE(0,m4.determinant(),0.01);
 	CHECK_CLOSE(0,m5.determinant(),0.01);

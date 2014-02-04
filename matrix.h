@@ -32,6 +32,8 @@ class Matrix{
 		int rows;
 		int cols;
 		std::vector<double> mat;
+		
+		int sign();
 	public:
 		Matrix(int, int);
 		Matrix(int, int, double);

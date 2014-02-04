@@ -122,19 +122,47 @@ Matrix Matrix::operator*(const Matrix& other){
 	return res;
 }
 
+/*
+* O(n^3) solution, so this isn't the best, however it will only
+* ever be used in finding the determinant and the calculation of
+* the determinant is already O(n^3)
+*/
+int Matrix::sign(){
+	if(this->cols != 1){
+		throw InvalidSize("Must be a column vector");
+	}
+	int inversionPairs = 0;
+	for(int i = 0; i < this->rows; ++i){
+		for(int j = i+1; j < this->rows; ++j){
+			for(int k = 0; k < (*this)(i,0); ++k){
+				if((*this)(k,0) == 1){
+					++inversionPairs;
+					k = (*this)(i,0);
+				}
+			}
+		}
+	}
+	return ((inversionPairs % 2) == 0) ? 1 : -1;
+}
 
 double Matrix::determinant(){
 	if(this->rows != this->cols){
 		throw InvalidSize("Matrix must be square");
 	}
 	double temp = 1;
+	int sign = 1;
 	try{
 		ResultLUP decomp = this->decomposeLUP();
+		std::cout << "Calculating det" << std::endl;
 		for(int i = 0; i < this->rows; ++i){
+			// calculate |det(*this)|
+			std::cout << decomp.lu.upper(i,i) << std::endl;
 			temp *= decomp.lu.upper(i,i);
 		}
+		// calculate sgn(det(*this))
+		sign = decomp.permutation.sign();
 	} catch(SingularMatrix sm){ return 0; }
-	return temp;
+	return -sign*temp;
 }
 
 Matrix Matrix::backSub(const Matrix ans){
