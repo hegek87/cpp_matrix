@@ -122,22 +122,20 @@ Matrix Matrix::operator*(const Matrix& other){
 	return res;
 }
 
-/*
+
 double Matrix::determinant(){
 	if(this->rows != this->cols){
 		throw InvalidSize("Matrix must be square");
 	}
-	Matrix perm(this->rows, 1);
-	try{
-		perm = this->decomposeLUP();
-	} catch(SingularMatrix sm){ return 0; }
 	double temp = 1;
-	for(int i = 0; i < this->rows; ++i){
-	std::cout << (*this)(i,i) << std::endl;
-		temp *= (*this)(perm(i,0),perm(i,0));
-	}
+	try{
+		ResultLUP decomp = this->decomposeLUP();
+		for(int i = 0; i < this->rows; ++i){
+			temp *= decomp.lu.upper(i,i);
+		}
+	} catch(SingularMatrix sm){ return 0; }
 	return temp;
-}*/
+}
 
 Matrix Matrix::backSub(const Matrix ans){
 	if(this->rows != this->cols){

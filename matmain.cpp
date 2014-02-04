@@ -246,7 +246,6 @@ TEST(VectorConstruct){
 }
 
 // 16
-/*
 TEST(Determinant){
 	Matrix m1(2,2), m2(3,3,5), m3(4,5,0.2), m4(100,100,5);
 	std::vector<double> matData;
@@ -269,7 +268,7 @@ TEST(Determinant){
 	CHECK_CLOSE(0,m4.determinant(),0.01);
 	CHECK_CLOSE(0,m5.determinant(),0.01);
 
-}*/
+}
 
 // 17
 TEST(BackSub){
