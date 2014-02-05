@@ -180,6 +180,11 @@ TEST(ScalarMult){
 	CHECK(Matrix(5,5,-1.5728573).equals(m4*-1));
 	CHECK(Matrix(5,5,1.5728573).equals(m4*1));
 	CHECK(Matrix(5,5,4.94128).equals(m4*3.14159265));
+	
+	CHECK((m1*5).equals(5*m1));
+	//CHECK((m2*7).equals(7*m2));
+	//CHECK((m3*109).equals(109*m3));
+	//CHECK((m4*10484).equals(10484*m4));
 }
 	
 // 12
@@ -196,6 +201,9 @@ TEST(MatrixMult){
 		m4*m2;
 		CHECK(false);
 	} catch(InvalidSize is){ CHECK(true); }
+	
+	Matrix m6(10,10,5),m7(10,10,100);
+	CHECK((m6*m7).equals(m7*m6));
 }
 
 // 13

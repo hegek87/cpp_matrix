@@ -50,6 +50,7 @@ class Matrix{
 		Matrix operator-(const Matrix&);
 		Matrix operator*(const Matrix&);
 		Matrix operator*(const double);
+		friend Matrix operator*(const double,Matrix&);
 		double operator()(const int, const int) const;
 		double& operator()(const int, const int);
 		static Matrix identity(int);

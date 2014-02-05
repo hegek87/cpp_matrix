@@ -301,4 +301,8 @@ Matrix Matrix::operator*(const double factor){
 	return scaled;
 }
 
+Matrix operator*(const double factor, Matrix& other){
+	return other.operator*(factor);
+}
+
 std::vector<double>& Matrix::getMat(){ return this->mat; }	
