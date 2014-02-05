@@ -509,6 +509,14 @@ TEST(Sign){
 	CHECK_CLOSE(1,m5.sign(),0.01);
 	CHECK_CLOSE(-1,m6.sign(),0.01);
 }*/
+
+TEST(Inverse){
+	std::vector<double> v1;
+	v1.push_back(2);v1.push_back(3);v1.push_back(2);v1.push_back(2);
+	Matrix m1(2,2,v1);
+	Matrix inv1 = m1.inverse();
+	CHECK((m1*inv1).equals(Matrix::identity(2)));
+}
 	
 int main(){
 	return UnitTest::RunAllTests();

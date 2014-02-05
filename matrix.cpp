@@ -281,6 +281,8 @@ ResultLUP Matrix::decomposeLUP(){
 	return ResultLUP(perm,ResultLU(l,u));
 }
 
+Matrix Matrix::inverse(){ return Matrix(1,1); }
+
 Matrix Matrix::identity(int size){
 	Matrix id(size,size);
 	for(int i = 0; i < size; ++i){

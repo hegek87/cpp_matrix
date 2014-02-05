@@ -64,6 +64,7 @@ class Matrix{
 		Matrix forwardSub(const Matrix);
 		ResultLU decomposeLU();
 		ResultLUP decomposeLUP();
+		Matrix solve(const Matrix&);
 		Matrix gaussianElimination();
 };
 
