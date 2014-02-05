@@ -123,24 +123,18 @@ Matrix Matrix::operator*(const Matrix& other){
 }
 
 /*
-* O(n^3) solution, so this isn't the best, however it will only
-* ever be used in finding the determinant and the calculation of
-* the determinant is already O(n^3)
+* This finds the determinant of a permutation matrix (which
+* is always +/- 1. It will only be used by the determinant
+* method. It takes O(n^2) time.
 */
 int Matrix::sign(){
 	if(this->cols != 1){
 		throw InvalidSize("Must be a column vector");
 	}
-	Matrix perm(this->rows, this->rows);
-	for(int i = 0; i < this->rows; ++i){
-		perm(i,(*this)(i,0)) = 1;
-	}
 	int inversionPairs = 0;
 	for(int i = 0; i < this->rows; ++i){
-		for(int j = 0; j < (*this)(i,0); ++i){
-			if(perm(i,j) == 1){
-				++inversionPairs;
-			}
+		for(int j = i+1; j < this->rows; ++j){
+			if((*this)(i,0) > (*this)(j,0)){ ++inversionPairs; }
 		}
 	}
 	return ((inversionPairs % 2) == 0) ? 1 : -1;
@@ -154,10 +148,8 @@ double Matrix::determinant(){
 	int sign = 1;
 	try{
 		ResultLUP decomp = this->decomposeLUP();
-		std::cout << "Calculating det" << std::endl;
 		for(int i = 0; i < this->rows; ++i){
 			// calculate |det(*this)|
-			std::cout << decomp.lu.upper(i,i) << std::endl;
 			temp *= decomp.lu.upper(i,i);
 		}
 		// calculate sgn(det(*this))
