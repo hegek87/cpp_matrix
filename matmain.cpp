@@ -282,7 +282,21 @@ TEST(Determinant){
 	
 	CHECK_CLOSE(0,m4.determinant(),0.01);
 	CHECK_CLOSE(0,m5.determinant(),0.01);
-
+	std::vector<double> v2;
+	v2.push_back(1);v2.push_back(2);v2.push_back(-1);v2.push_back(4);
+	v2.push_back(2);v2.push_back(-1);
+	v2.push_back(0);v2.push_back(1);v2.push_back(2);v2.push_back(-2);
+	v2.push_back(-3);v2.push_back(1);
+	v2.push_back(0);v2.push_back(3);v2.push_back(2);v2.push_back(-1);
+	v2.push_back(3);v2.push_back(-2);
+	v2.push_back(1);v2.push_back(2);v2.push_back(0);v2.push_back(-2);
+	v2.push_back(3);v2.push_back(2);
+	v2.push_back(1);v2.push_back(-2);v2.push_back(3);v2.push_back(1);
+	v2.push_back(2);v2.push_back(-1);
+	v2.push_back(2);v2.push_back(0);v2.push_back(2);v2.push_back(3);
+	v2.push_back(1);v2.push_back(1);
+	Matrix m8(6,6,v2);
+	CHECK_CLOSE(329,m8.determinant(),0.01);
 }
 
 // 17
