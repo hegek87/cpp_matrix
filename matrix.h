@@ -58,6 +58,7 @@ class Matrix{
 		Matrix inverse();
 		std::vector<double>& getMat();
 		bool equals(const Matrix&);
+		Matrix transpose();
 		
 		double determinant();
 		double cofactor(int,int);

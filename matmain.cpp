@@ -590,6 +590,15 @@ TEST(CreateColVect){
 		}
 	}
 }*/
+
+TEST(Transpose){
+	std::vector<double> v1;
+	std::vector<double> t1;
+	v1.push_back(1);v1.push_back(5);v1.push_back(4);v1.push_back(10);
+	t1.push_back(1);t1.push_back(4);t1.push_back(5);t1.push_back(10);
+	Matrix m1(2,2,v1),m2(2,2,t1);
+	CHECK(m2.equals(m1.transpose()));
+}
 	
 int main(){
 	return UnitTest::RunAllTests();

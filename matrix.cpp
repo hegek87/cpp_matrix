@@ -338,6 +338,16 @@ Matrix Matrix::identity(int size){
 	return id;
 }
 
+Matrix Matrix::transpose(){
+	Matrix trans(*this);
+	for(int i = 0; i < this->rows; ++i){
+		for(int j = i+1; j < this->rows; ++j){
+			std::swap(trans(i,j), trans(j,i));
+		}
+	}
+	return trans;
+}
+
 Matrix Matrix::operator*(const double factor){
 	if(!factor){ return Matrix(rows,cols); }
 	if(factor == 1){ return *this; }
