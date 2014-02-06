@@ -284,18 +284,22 @@ ResultLUP Matrix::decomposeLUP(){
 Matrix Matrix::inverse(){ return Matrix(1,1); }
 
 /*
-* To solve LUx=b, we put y=Ux, and solve Ly=b, followed by
-* Ux=y
+* Gixen (*this)x=ans, we will note that P*(*this)x=P*ans, and
+* LUx = P*(*this)x = P*ans. Now we let y=Ux, and we first will
+* solve Ly = P*ans, followed by Ux = y.
 */
 Matrix Matrix::solve(const Matrix& ans){
 	ResultLUP factor = this->decomposeLUP();
-	Matrix lower = factor.lu.lower, upper = factor.lu.upper;
-	Matrix y = lower.forwardSub(ans);
-	Matrix x = upper.backSub(y);
-	Matrix perm(this->rows,this->rows);
+	// construct P from factor.permutation
+	Matrix p(this->rows,this->rows);
 	for(int i = 0; i < this->rows; ++i){
-		perm(i,factor.permutation(i,0)) = 1;
+		p(i,factor.permutation(i,0)) = 1;
 	}
+	Matrix lower = factor.lu.lower, upper = factor.lu.upper;
+	// Solve Ly = P*ans
+	Matrix y = lower.forwardSub(p*ans);
+	// Solve y = Ux
+	Matrix x = upper.backSub(y);
 	return x;
 }
 
