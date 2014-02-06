@@ -283,6 +283,22 @@ ResultLUP Matrix::decomposeLUP(){
 
 Matrix Matrix::inverse(){ return Matrix(1,1); }
 
+/*
+* To solve LUx=b, we put y=Ux, and solve Ly=b, followed by
+* Ux=y
+*/
+Matrix Matrix::solve(const Matrix& ans){
+	ResultLUP factor = this->decomposeLUP();
+	Matrix lower = factor.lu.lower, upper = factor.lu.upper;
+	Matrix y = lower.forwardSub(ans);
+	Matrix x = upper.backSub(y);
+	Matrix perm(this->rows,this->rows);
+	for(int i = 0; i < this->rows; ++i){
+		perm(i,factor.permutation(i,0)) = 1;
+	}
+	return x;
+}
+
 Matrix Matrix::identity(int size){
 	Matrix id(size,size);
 	for(int i = 0; i < size; ++i){

@@ -510,6 +510,25 @@ TEST(Sign){
 	CHECK_CLOSE(-1,m6.sign(),0.01);
 }*/
 
+// 21
+TEST(Solve){
+	std::vector<double> v1,v2,v3;//2-33
+	v1.push_back(-1);v1.push_back(1);v1.push_back(2);
+	v1.push_back(2);v1.push_back(3);v1.push_back(1);
+	v1.push_back(5);v1.push_back(4);v1.push_back(2);
+	Matrix m1(3,3,v1),ans(3,1),b(3,1);
+	ans(0,0)=2;ans(1,0)=-3;ans(2,0)=3;
+	b(0,0)=1;b(1,0)=-2;b(2,0)=4;
+	Matrix x1 = m1.solve(b);
+	std::cout << "x: " << x1(0,0) << std::endl;
+	std::cout << "y: " << x1(1,0) << std::endl;
+	std::cout << "z: " << x1(2,0) << std::endl;
+	CHECK(ans.equals(x1));
+	//.5,-1/3,1
+	//1,4,-3,-2
+}
+
+// 22
 TEST(Inverse){
 	std::vector<double> v1;
 	v1.push_back(2);v1.push_back(3);v1.push_back(2);v1.push_back(2);
