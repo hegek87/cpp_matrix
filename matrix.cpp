@@ -348,6 +348,24 @@ Matrix Matrix::transpose(){
 	return trans;
 }
 
+double Matrix::cofactor(int x, int y){
+	double sign = (x+y%2 == 1) ? -1 : 1;
+	Matrix m(this->rows-1,this->rows-1);
+	int r=0,c=0;
+	for(int i = 0; i < this->rows; ++i){
+		if(i == x){ continue; }
+		for(int j = 0; j < this->rows; ++j){
+			if(j == y){ continue; }
+			m(r,c) = (*this)(r,c);
+			++c;
+		}
+		++r;
+	}
+	return sign*(*this)(x,y)*m.determinant();
+}
+			
+			
+
 Matrix Matrix::operator*(const double factor){
 	if(!factor){ return Matrix(rows,cols); }
 	if(factor == 1){ return *this; }

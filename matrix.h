@@ -67,7 +67,6 @@ class Matrix{
 		ResultLU decomposeLU();
 		ResultLUP decomposeLUP();
 		Matrix solve(const Matrix&);
-		Matrix gaussianElimination();
 };
 
 struct ResultLU{

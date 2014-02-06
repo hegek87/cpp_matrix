@@ -599,6 +599,16 @@ TEST(Transpose){
 	Matrix m1(2,2,v1),m2(2,2,t1);
 	CHECK(m2.equals(m1.transpose()));
 }
+
+TEST(Cofactor){
+	std::vector<double> v1;
+	v1.push_back(1);v1.push_back(2);v1.push_back(2);v1.push_back(1);
+	Matrix m1(2,2,v1);
+	CHECK_CLOSE(1,m1.cofactor(0,0),0.01);
+	CHECK_CLOSE(-2,m1.cofactor(0,1),0.01);
+	CHECK_CLOSE(-2,m1.cofactor(1,0),0.01);
+	CHECK_CLOSE(1,m1.cofactor(1,1),0.01);
+}
 	
 int main(){
 	return UnitTest::RunAllTests();
