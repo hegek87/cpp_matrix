@@ -33,6 +33,7 @@ class Matrix{
 		int cols;
 		std::vector<double> mat;
 		int sign();		
+		static Matrix createColVec(const int, const int);
 	public:
 		Matrix(int, int);
 		Matrix(int, int, double);

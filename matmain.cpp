@@ -543,12 +543,53 @@ TEST(Solve){
 
 // 22
 TEST(Inverse){
-	std::vector<double> v1;
+	std::vector<double> v1,v2,v3,v4;
 	v1.push_back(2);v1.push_back(3);v1.push_back(2);v1.push_back(2);
 	Matrix m1(2,2,v1);
-	Matrix inv1 = m1.inverse();
-	CHECK((m1*inv1).equals(Matrix::identity(2)));
+	v2.push_back(2);v2.push_back(-1);v2.push_back(0);
+	v2.push_back(-1);v2.push_back(2);v2.push_back(-1);
+	v2.push_back(0);v2.push_back(-1);v2.push_back(2);
+	Matrix m2(3,3,v2);
+	v3.push_back(4);v3.push_back(-1);v3.push_back(-1);v3.push_back(-1);
+	v3.push_back(-1);v3.push_back(4);v3.push_back(-1);v3.push_back(-1);
+	v3.push_back(-1);v3.push_back(-1);v3.push_back(4);v3.push_back(-1);
+	v3.push_back(-1);v3.push_back(-1);v3.push_back(-1);v3.push_back(4);
+	Matrix m3(4,4,v3);
+	v4.push_back(1);v4.push_back(2);v4.push_back(3);
+	v4.push_back(0);v4.push_back(4);v4.push_back(5);
+	v4.push_back(1);v4.push_back(0);v4.push_back(6);
+	Matrix m4(3,3,v4);
+	
+	CHECK((m1*m1.inverse()).equals(Matrix::identity(2)));
+	CHECK((m2*m2.inverse()).equals(Matrix::identity(3)));
+	CHECK((m3*m3.inverse()).equals(Matrix::identity(4)));
+	CHECK((m4*m4.inverse()).equals(Matrix::identity(3)));
+	try{
+		Matrix(5,5,5).inverse();
+		CHECK(false);
+	} catch(SingularMatrix sm){ CHECK(true); }
+	try{
+		Matrix(5,4).inverse();
+		CHECK(false);
+	} catch(InvalidSize is){ CHECK(true); }
 }
+
+// Private test
+/*
+TEST(CreateColVect){
+	int size = 10;
+	for(int i = 0; i < size; ++i){
+		Matrix m1 = Matrix::createColVec(size,i);
+		for(int j = 0; j < size; ++j){
+			if(j == i){
+				CHECK_CLOSE(1,m1(j,0),0.01);
+			}
+			else{
+				CHECK_CLOSE(0,m1(j,0),0.01);
+			}
+		}
+	}
+}*/
 	
 int main(){
 	return UnitTest::RunAllTests();

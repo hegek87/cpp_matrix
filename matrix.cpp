@@ -281,7 +281,34 @@ ResultLUP Matrix::decomposeLUP(){
 	return ResultLUP(perm,ResultLU(l,u));
 }
 
-Matrix Matrix::inverse(){ return Matrix(1,1); }
+Matrix Matrix::inverse(){
+	if(this->rows != this->cols){
+		throw InvalidSize("Matrix must be square to have an inverse");
+	}
+	if(this->determinant() == 0){
+		throw SingularMatrix("Inverse doesn't exist - Matrix Singular");
+	}
+	std::vector<double> matEls(this->rows*this->rows);
+	for(int i = 0; i < this->rows; ++i){
+		//create col vector and solve
+		Matrix col = createColVec(this->rows, i);
+		Matrix inverseCol = this->solve(col);
+		for(int j = 0; j < this->rows; ++j){
+			matEls[i+j*this->rows] = inverseCol(j,0);
+		}
+	}
+	return Matrix(this->rows, this->rows, matEls);
+}
+		
+/*
+* creates a column vector with size rows, and puts a 1 for the
+* (oneLoc,0) entry
+*/
+Matrix Matrix::createColVec(const int size, const int oneLoc){
+	std::vector<double> vecEl(size, 0);
+	vecEl[oneLoc] = 1;
+	return Matrix(size, 1, vecEl);
+}
 
 /*
 * Gixen (*this)x=ans, we will note that P*(*this)x=P*ans, and
