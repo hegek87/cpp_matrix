@@ -349,7 +349,7 @@ Matrix Matrix::transpose(){
 }
 
 double Matrix::cofactor(int x, int y){
-	double sign = (x+y%2 == 1) ? -1 : 1;
+	double sign = ((x+y)%2 == 1) ? -1 : 1;
 	Matrix m(this->rows-1,this->rows-1);
 	int r=0,c=0;
 	for(int i = 0; i < this->rows; ++i){
@@ -380,6 +380,23 @@ Matrix Matrix::operator*(const double factor){
 
 Matrix operator*(const double factor, Matrix& other){
 	return other.operator*(factor);
+}
+
+Vector3d Matrix::matrixMulVec(const Matrix& mat, const Vector3d& vec){
+	Vector3d noTranslate = matrixMulDir(mat,vec);
+	return Vector3d(	noTranslate.getX()+mat(0,3),
+				noTranslate.getY()+mat(1,3),
+				noTranslate.getZ()+mat(2,3));
+}
+
+Vector3d Matrix::matrixMulDir(const Matrix& mat, const Vector3d& vec){
+	double coords[3];
+	for(int i = 0; i < 3; ++i){
+		for(int j = 0; j < 3; ++j){
+			coords[i] = mat(i,j)*vec.getCoords()[j];
+		}
+	}
+	return Vector3d(coords);
 }
 
 std::vector<double>& Matrix::getMat(){ return this->mat; }	

@@ -54,12 +54,11 @@ class Matrix{
 		friend Matrix operator*(const double,Matrix&);
 		double operator()(const int, const int) const;
 		double& operator()(const int, const int);
-		static Matrix identity(int);
 		Matrix inverse();
 		std::vector<double>& getMat();
 		bool equals(const Matrix&);
-		Matrix transpose();
 		
+		Matrix transpose();
 		double determinant();
 		double cofactor(int,int);
 		Matrix backSub(const Matrix);
@@ -67,6 +66,8 @@ class Matrix{
 		ResultLU decomposeLU();
 		ResultLUP decomposeLUP();
 		Matrix solve(const Matrix&);
+		
+		static Matrix identity(int);
 };
 
 struct ResultLU{
