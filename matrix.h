@@ -1,6 +1,6 @@
 #ifndef MATRIX_H
 #define MATRIX_H
-#include "../vector3d/vector3d.h"
+#include "vector3d.h"
 #include <vector>
 #include <string>
 struct ResultLU;
@@ -47,6 +47,7 @@ class Matrix{
 		
 		Vector3d matrixMulVec(const Matrix&, const Vector3d&);
 		Vector3d matrixMulDir(const Matrix&, const Vector3d&);
+		
 		Matrix operator+(const Matrix&);
 		Matrix operator-(const Matrix&);
 		Matrix operator*(const Matrix&);

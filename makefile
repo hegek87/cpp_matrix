@@ -10,7 +10,7 @@ bin/matrix: $(OBJECTS)
 	$(CC) $(OBJECTS) -o bin/matrix -lUnitTest++
 	
 bin/matrix.o: matrix.cpp
-	$(CC) $(CFLAGS) bin/matrix.o matrix.cpp
+	$(CC) $(CFLAGS) bin/matrix.o -I../vector3d/ matrix.cpp
 	
 bin/matmain.o: matmain.cpp
 	$(CC) $(CFLAGS) bin/matmain.o matmain.cpp
