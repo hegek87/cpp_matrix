@@ -34,7 +34,7 @@ Matrix::Matrix(int row, int col, std::vector<double>& matrix): rows(row), cols(c
 void swap(Matrix& first, Matrix& second){
 	using std::swap;
 	
-	swap(first.rows, first.rows);
+	swap(first.rows, second.rows);
 	swap(first.cols, second.cols);
 	first.mat.swap(second.mat);
 }
